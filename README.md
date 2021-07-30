@@ -5,7 +5,7 @@ https://pub.dev/documentation/provider/latest/provider/ChangeNotifierProvider-cl
 
 https://jitpack.io/#fdoyle/ChangeNotifierViewModel
 
-    implementation 'com.github.fdoyle.ChangeNotifierViewModel:changenotifier:main-SNAPSHOT'
+    implementation 'com.github.fdoyle.ChangeNotifierViewModel:changenotifier:1.0.0'
 
 You make a viewmodel with regular old fields, extend ChangeNotifierProvider, then whenever you change something call notifyListeners()
 
