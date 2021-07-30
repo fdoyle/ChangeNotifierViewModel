@@ -40,9 +40,11 @@ fun interface Listener {
     fun onDataChanged()
 }
 
-
 @Composable
-inline fun <reified VM : ChangeNotifierViewModel> withChangeNotifier(vm: VM = viewModel()): VM {
+inline fun <reified VM : ChangeNotifierViewModel> withChangeNotifier(vm: VM = viewModel(), listen: Boolean = true): VM {
+    if(!listen){
+        return vm
+    }
     val vmState = remember { mutableStateOf(vm) }
     DisposableEffect(vmState) {
         val listener = Listener { vmState.value = vmState.value }
@@ -53,4 +55,22 @@ inline fun <reified VM : ChangeNotifierViewModel> withChangeNotifier(vm: VM = vi
         }
     }
     return vmState.value
+}
+
+@Composable
+inline fun <reified VM : ChangeNotifierViewModel, R> withChangeNotifier(
+    vm: VM = viewModel(),
+    crossinline block: @DisallowComposableCalls (VM) -> R,
+): R {
+    val state = remember { mutableStateOf(block(vm)) }
+
+    DisposableEffect(state) {
+        val listener = Listener { state.value = block(vm) }
+        vm.addListener(listener)
+        onDispose {
+            vm.removeListener(listener)
+        }
+    }
+
+    return state.value
 }
