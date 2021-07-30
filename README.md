@@ -35,3 +35,17 @@ and access your fields.
 That's it. 
 
 State without fuss.
+
+By default, recomposition will occur on all changes to the viewmodel. 
+
+If you want to listen to updates to a specific field...
+
+    val value = withChangeNotifier { vm: MainViewModel -> vm.value }
+
+and you'll only get updates when vm.value changes.
+
+If you don't want to listen to updates at all...
+
+    val vm: MainViewModel = withChangeNotifier(listen = false)
+
+and you'll never get updates. This is helpful for composables that change data but don't show data (like buttons).
