@@ -21,7 +21,7 @@ You make a viewmodel with regular old fields, extend ChangeNotifierProvider, the
 
 Just grab your ViewModel...
 
-    val vm = withChangeNotifier<MainViewModel>()
+    val vm: MainViewModel = withChangeNotifier()
 
 and access your fields.
 
